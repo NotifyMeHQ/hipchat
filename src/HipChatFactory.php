@@ -12,6 +12,8 @@
 
 namespace NotifyMeHQ\HipChat;
 
+use GuzzleHttp\Client;
+use NotifyMeHQ\NotifyMe\Arr;
 use NotifyMeHQ\NotifyMe\FactoryInterface;
 
 class HipChatFactory implements FactoryInterface
@@ -25,6 +27,10 @@ class HipChatFactory implements FactoryInterface
      */
     public function make(array $config)
     {
-        return new HipChatGateway($config);
+        Arr::requires($config, ['token']);
+
+        $client = new Client();
+
+        return new HipChatGateway($client, $config);
     }
 }

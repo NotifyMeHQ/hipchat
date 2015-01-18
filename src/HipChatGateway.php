@@ -27,13 +27,6 @@ class HipChatGateway extends AbstractGateway implements GatewayInterface
     protected $endpoint = 'https://api.hipchat.com';
 
     /**
-     * Gateway display name.
-     *
-     * @var string
-     */
-    protected $displayName = 'hipchat';
-
-    /**
      * HipChat api version.
      *
      * @var string

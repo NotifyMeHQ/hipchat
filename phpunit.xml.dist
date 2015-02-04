@@ -14,7 +14,7 @@
          verbose="true"
 >
     <testsuites>
-        <testsuite name="NotifyMe HipChat Test Suite">
+        <testsuite name="NotifyMe Hipchat Test Suite">
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>

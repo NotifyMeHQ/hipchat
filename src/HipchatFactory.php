@@ -10,20 +10,20 @@
  * file that was distributed with this source code.
  */
 
-namespace NotifyMeHQ\HipChat;
+namespace NotifyMeHQ\Hipchat;
 
 use GuzzleHttp\Client;
 use NotifyMeHQ\NotifyMe\Arr;
 use NotifyMeHQ\NotifyMe\FactoryInterface;
 
-class HipChatFactory implements FactoryInterface
+class HipchatFactory implements FactoryInterface
 {
     /**
      * Create a new hipchat gateway instance.
      *
      * @param string[] $config
      *
-     * @return \NotifyMeHQ\HipChat\HipChatGateway
+     * @return \NotifyMeHQ\Hipchat\HipchatGateway
      */
     public function make(array $config)
     {
@@ -31,6 +31,6 @@ class HipChatFactory implements FactoryInterface
 
         $client = new Client();
 
-        return new HipChatGateway($client, $config);
+        return new HipchatGateway($client, $config);
     }
 }

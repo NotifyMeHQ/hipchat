@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "NotifyMeHQ\\HipChat\\": "src/"
+            "NotifyMeHQ\\Hipchat\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "NotifyMeHQ\\HipChat\\Tests\\": "tests/"
+            "NotifyMeHQ\\Hipchat\\Tests\\": "tests/"
         }
     },
     "extra": {

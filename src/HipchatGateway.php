@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace NotifyMeHQ\HipChat;
+namespace NotifyMeHQ\Hipchat;
 
 use GuzzleHttp\Client;
 use NotifyMeHQ\NotifyMe\Arr;
@@ -18,7 +18,7 @@ use NotifyMeHQ\NotifyMe\GatewayInterface;
 use NotifyMeHQ\NotifyMe\HttpGatewayTrait;
 use NotifyMeHQ\NotifyMe\Response;
 
-class HipChatGateway implements GatewayInterface
+class HipchatGateway implements GatewayInterface
 {
     use HttpGatewayTrait;
 

@@ -1,6 +1,6 @@
-# NotifyMe HipChat
+# NotifyMe Hipchat
 
-A HipChat gateway for NotifyMe.
+A Hipchat gateway for NotifyMe.
 
 ## Todo
 

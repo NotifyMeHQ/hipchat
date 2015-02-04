@@ -30,14 +30,14 @@ class HipchatGateway implements GatewayInterface
     protected $endpoint = 'https://api.hipchat.com';
 
     /**
-     * HipChat api version.
+     * Hipchat api version.
      *
      * @var string
      */
     protected $version = 'v2';
 
     /**
-     * HipChat message background colours.
+     * Hipchat message background colours.
      *
      * @var string[]
      */

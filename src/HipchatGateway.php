@@ -81,18 +81,19 @@ class HipchatGateway implements GatewayInterface
     /**
      * Send a notification.
      *
+     * @param string   $to
      * @param string   $message
      * @param string[] $options
      *
      * @return \NotifyMeHQ\NotifyMe\Response
      */
-    public function notify($message, array $options = [])
+    public function notify($to, $message, array $options = [])
     {
-        $room = Arr::get($options, 'to', '');
+        $options['to'] = $to;
 
         $params = $this->addMessage($message, $params, $options);
 
-        return $this->commit('post', $this->buildUrlFromString("room/{$room}/message"), $params);
+        return $this->commit('post', $this->buildUrlFromString("room/{$to}/message"), $params);
     }
 
     /**

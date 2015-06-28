@@ -77,11 +77,11 @@ class HipchatGateway implements GatewayInterface
             'id'             => $to,
             'from'           => $this->config['from'],
             'message'        => $message,
-            'notify'         => Arr::get($options, 'notify', false),
-            'message_format' => Arr::get($options, 'format', 'text'),
+            'notify'         => Arr::get($this->config, 'notify', false),
+            'message_format' => Arr::get($this->config, 'format', 'text'),
         ];
 
-        $color = Arr::get($options, 'color', 'yellow');
+        $color = Arr::get($this->config, 'color', 'yellow');
 
         if (!in_array($color, $this->colours)) {
             $color = 'yellow';

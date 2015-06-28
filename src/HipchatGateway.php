@@ -22,21 +22,21 @@ class HipchatGateway implements GatewayInterface
     use HttpGatewayTrait;
 
     /**
-     * Gateway api endpoint.
+     * The api endpoint.
      *
      * @var string
      */
     protected $endpoint = 'https://api.hipchat.com';
 
     /**
-     * Hipchat api version.
+     * The api version.
      *
      * @var string
      */
     protected $version = 'v2';
 
     /**
-     * Hipchat message background colours.
+     * The allowed message background colours.
      *
      * @var string[]
      */
@@ -48,20 +48,6 @@ class HipchatGateway implements GatewayInterface
         'purple',
         'random',
     ];
-
-    /**
-     * The http client.
-     *
-     * @var \GuzzleHttp\Client
-     */
-    protected $client;
-
-    /**
-     * Configuration options.
-     *
-     * @var string[]
-     */
-    protected $config;
 
     /**
      * Create a new hipchat gateway instance.
@@ -80,36 +66,20 @@ class HipchatGateway implements GatewayInterface
     /**
      * Send a notification.
      *
-     * @param string   $to
-     * @param string   $message
-     * @param string[] $options
+     * @param string $to
+     * @param string $message
      *
      * @return \NotifyMeHQ\Contracts\ResponseInterface
      */
-    public function notify($to, $message, array $options = [])
+    public function notify($to, $message)
     {
-        $options['to'] = $to;
-
-        $params = $this->addMessage($message, $params, $options);
-
-        return $this->commit('post', $this->buildUrlFromString("room/{$to}/message"), $params);
-    }
-
-    /**
-     * Add a message to the request.
-     *
-     * @param string   $message
-     * @param string[] $params
-     * @param string[] $options
-     *
-     * @return array
-     */
-    protected function addMessage($message, array $params, array $options)
-    {
-        $params['auth_token'] = Arr::get($options, 'token', $this->config['token']);
-
-        $params['id'] = Arr::get($options, 'to', '');
-        $params['from'] = Arr::get($options, 'from', $this->config['from']);
+        $params = [
+            'id'             => $to,
+            'from'           => $this->config['from'],
+            'message'        => $message,
+            'notify'         => Arr::get($options, 'notify', false),
+            'message_format' => Arr::get($options, 'format', 'text'),
+        ];
 
         $color = Arr::get($options, 'color', 'yellow');
 
@@ -118,38 +88,30 @@ class HipchatGateway implements GatewayInterface
         }
 
         $params['color'] = $color;
-        $params['message'] = $message;
-        $params['notify'] = Arr::get($options, 'notify', false);
-        $params['message_format'] = Arr::get($options, 'format', 'text');
 
-        return $params;
+        return $this->send($this->buildUrlFromString("room/{$to}/message"), $params);
     }
 
     /**
-     * Commit a HTTP request.
+     * Send the notification over the wire.
      *
-     * @param string   $method
      * @param string   $url
      * @param string[] $params
-     * @param string[] $options
      *
-     * @return mixed
+     * @return \NotifyMeHQ\Contracts\ResponseInterface
      */
-    protected function commit($method = 'post', $url, array $params = [], array $options = [])
+    protected function send($url, array $params)
     {
         $success = false;
 
-        $token = $params['auth_token'];
-
-        unset($params['auth_token']);
-
-        $rawResponse = $this->client->{$method}($url, [
+        $rawResponse = $this->client->post($url, [
             'exceptions'      => false,
             'timeout'         => '80',
             'connect_timeout' => '30',
             'headers'         => [
+                'Accept'        => 'application/json',
                 'Content-Type'  => 'application/json',
-                'Authorization' => 'Bearer '.$token,
+                'Authorization' => 'Bearer '.$this->config['token'],
             ],
             'json' => $params,
         ]);
@@ -165,7 +127,7 @@ class HipchatGateway implements GatewayInterface
     }
 
     /**
-     * Map HTTP response to response object.
+     * Map the raw response to our response object.
      *
      * @param bool  $success
      * @param array $response
@@ -183,7 +145,7 @@ class HipchatGateway implements GatewayInterface
     /**
      * Get the default json response.
      *
-     * @param string $rawResponse
+     * @param \GuzzleHttp\Message\ResponseInterface $rawResponse
      *
      * @return array
      */

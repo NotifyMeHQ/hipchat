@@ -116,7 +116,7 @@ class HipchatGateway implements GatewayInterface
             'json' => $params,
         ]);
 
-        (substr((string) $rawResponse->getStatusCode(), 0, 1) === '2')
+        if (substr((string) $rawResponse->getStatusCode(), 0, 1) === '2') {
             $response = [];
             $success = true;
         } else {

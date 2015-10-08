@@ -89,7 +89,9 @@ class HipchatGateway implements GatewayInterface
 
         $params['color'] = $color;
 
-        return $this->send($this->buildUrlFromString("room/{$to}/message"), $params);
+        $type = Arr::get($this->config, 'type', 'message');
+
+        return $this->send($this->buildUrlFromString("room/{$to}/{$type}"), $params);
     }
 
     /**
